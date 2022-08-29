@@ -43,10 +43,9 @@ instance JSON.ReadForeign Column where
 instance JSON.WriteForeign Column where
   writeImpl = JSON.writeImpl <<< columnToInt
 
-data Column = C0 | C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 | C10 | C11 | C12 | C13 | C14 | C15
+data Column = C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 | C10 | C11 | C12 | C13 | C14 | C15 | C16
 
 intToColumn :: Int -> Either Int Column
-intToColumn 0 = Right C0
 intToColumn 1 = Right C1
 intToColumn 2 = Right C2
 intToColumn 3 = Right C3
@@ -62,10 +61,10 @@ intToColumn 12 = Right C12
 intToColumn 13 = Right C13
 intToColumn 14 = Right C14
 intToColumn 15 = Right C15
+intToColumn 15 = Right C16
 intToColumn x = Left x
 
 columnToInt :: Column -> Int
-columnToInt C0 = 0
 columnToInt C1 = 1
 columnToInt C2 = 2
 columnToInt C3 = 3
@@ -81,6 +80,7 @@ columnToInt C12 = 12
 columnToInt C13 = 13
 columnToInt C14 = 14
 columnToInt C15 = 15
+columnToInt C16 = 16
 
 -- | Beats, or a temporal unit based on seconds modulated by a tempo.
 data Version (i :: Int) = Version Int
