@@ -1,0 +1,17 @@
+{
+  "name": "joyride-types",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "spago -x test.dhall test"
+  },
+  "keywords": [],
+  "author": "Mike Solomon",
+  "license": "ISC",
+  "devDependencies": {
+    "purescript": "^0.15.4",
+    "purs-tidy": "^0.9.2",
+    "spago": "^0.20.9"
+  }
+}
