@@ -2,14 +2,19 @@ module Joyride.Types where
 
 import Prelude
 
-import Data.Either (Either(..))
-import Data.Maybe (Maybe)
+import Data.Either (Either(..), hush)
+import Data.Maybe (Maybe, fromMaybe)
 import Data.Reflectable (class Reflectable, reflectType)
 import Foreign (ForeignError(..), fail)
 import Record (union)
 import Simple.JSON as JSON
 import Type.Proxy (Proxy(..))
 
+instance Show Column where
+  show = JSON.writeJSON
+
+derive instance Eq Column
+derive instance Ord Column
 
 data Position = Position1 | Position2 | Position3 | Position4
 
@@ -44,6 +49,9 @@ instance JSON.WriteForeign Column where
   writeImpl = JSON.writeImpl <<< columnToInt
 
 data Column = C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 | C10 | C11 | C12 | C13 | C14 | C15 | C16
+
+instance Semigroup Column where
+  append a b = fromMaybe C7 $ hush $ intToColumn ((((columnToInt a) + (columnToInt b) - 1) `mod` 16) + 1)
 
 intToColumn :: Int -> Either Int Column
 intToColumn 1 = Right C1
@@ -157,13 +165,12 @@ data EventV0
   = BasicEventV0 BasicEventV0'
   | LeapEventV0 LeapEventV0'
   | LongEventV0 LongEventV0'
-  
+
 instance JSON.ReadForeign Event_ where
   readImpl i = EventV0 <$> (JSON.readImpl i)
 
 instance JSON.WriteForeign Event_ where
   writeImpl (EventV0 i) = JSON.writeImpl i
-
 
 type TrackV0' =
   { url :: String
@@ -172,7 +179,6 @@ type TrackV0' =
   , owner :: String
   , version :: Version 0
   }
-
 
 data Track = TrackV0 TrackV0'
 
