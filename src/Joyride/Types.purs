@@ -157,3 +157,10 @@ data EventV0
   = BasicEventV0 BasicEventV0'
   | LeapEventV0 LeapEventV0'
   | LongEventV0 LongEventV0'
+  
+instance JSON.ReadForeign Event_ where
+  readImpl i = EventV0 <$> (JSON.readImpl i)
+
+instance JSON.WriteForeign Event_ where
+  writeImpl (EventV0 i) = JSON.writeImpl i
+
