@@ -61,7 +61,7 @@ intToColumn 12 = Right C12
 intToColumn 13 = Right C13
 intToColumn 14 = Right C14
 intToColumn 15 = Right C15
-intToColumn 15 = Right C16
+intToColumn 16 = Right C16
 intToColumn x = Left x
 
 columnToInt :: Column -> Int
