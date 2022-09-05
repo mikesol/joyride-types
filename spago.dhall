@@ -17,6 +17,7 @@ to generate this file without the comments in this block.
   , "either"
   , "foreign"
   , "maybe"
+  , "newtype"
   , "prelude"
   , "record"
   , "simple-json"

@@ -4,6 +4,7 @@ import Prelude
 
 import Data.Either (Either(..), hush)
 import Data.Maybe (Maybe, fromMaybe)
+import Data.Newtype (class Newtype)
 import Data.Reflectable (class Reflectable, reflectType)
 import Foreign (ForeignError(..), fail)
 import Record (union)
@@ -93,6 +94,9 @@ columnToInt C16 = 16
 -- | Beats, or a temporal unit based on seconds modulated by a tempo.
 data Version (i :: Int) = Version Int
 
+derive instance Eq (Version i)
+derive instance Ord (Version i)
+
 instance Reflectable i Int => Show (Version i) where
   show _ = "Version " <> show (reflectType (Proxy :: _ i))
 
@@ -172,11 +176,26 @@ instance JSON.ReadForeign Event_ where
 instance JSON.WriteForeign Event_ where
   writeImpl (EventV0 i) = JSON.writeImpl i
 
+newtype Whitelist = Whitelist (Array String)
+
+-- we allow for whitelist to optionally be absent
+instance JSON.ReadForeign Whitelist where
+  readImpl i = Whitelist <$> (fromMaybe [] <$> JSON.readImpl i)
+
+instance JSON.WriteForeign Whitelist where
+  writeImpl (Whitelist i) = JSON.writeImpl i
+
+derive instance Newtype Whitelist _
+derive newtype instance Show Whitelist
+derive newtype instance Eq Whitelist
+derive newtype instance Ord Whitelist
+
 type TrackV0' =
   { url :: String
   , private :: Boolean
   , title :: Maybe String
   , owner :: String
+  , whitelist :: Whitelist
   , version :: Version 0
   }
 
