@@ -21,7 +21,8 @@ main = do
         describe "Column" do
           it "Has a correct semiring instance" do
             (C1 <> C4) `shouldEqual` C5
-            (C1 <> C16) `shouldEqual` C1
+            (C1 <> C16) `shouldEqual` C17
+            (C1 <> C17) `shouldEqual` C1
             (C6 <> C3) `shouldEqual` C9
         describe "Track" do
           it "Parses correctly" do

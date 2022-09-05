@@ -49,10 +49,10 @@ instance JSON.ReadForeign Column where
 instance JSON.WriteForeign Column where
   writeImpl = JSON.writeImpl <<< columnToInt
 
-data Column = C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 | C10 | C11 | C12 | C13 | C14 | C15 | C16
+data Column = C1 | C2 | C3 | C4 | C5 | C6 | C7 | C8 | C9 | C10 | C11 | C12 | C13 | C14 | C15 | C16 | C17
 
 instance Semigroup Column where
-  append a b = fromMaybe C7 $ hush $ intToColumn ((((columnToInt a) + (columnToInt b) - 1) `mod` 16) + 1)
+  append a b = fromMaybe C7 $ hush $ intToColumn ((((columnToInt a) + (columnToInt b) - 1) `mod` 17) + 1)
 
 intToColumn :: Int -> Either Int Column
 intToColumn 1 = Right C1
@@ -71,6 +71,7 @@ intToColumn 13 = Right C13
 intToColumn 14 = Right C14
 intToColumn 15 = Right C15
 intToColumn 16 = Right C16
+intToColumn 17 = Right C17
 intToColumn x = Left x
 
 columnToInt :: Column -> Int
@@ -90,6 +91,7 @@ columnToInt C13 = 13
 columnToInt C14 = 14
 columnToInt C15 = 15
 columnToInt C16 = 16
+columnToInt C17 = 17
 
 -- | Beats, or a temporal unit based on seconds modulated by a tempo.
 data Version (i :: Int) = Version Int
