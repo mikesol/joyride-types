@@ -19,7 +19,9 @@ derive instance Ord Column
 
 data Position = Position1 | Position2 | Position3 | Position4
 
+
 derive instance Eq Position
+derive instance Ord Position
 instance Show Position where
   show = JSON.writeJSON
 
@@ -133,6 +135,9 @@ instance JSON.WriteForeign EventV0 where
 
 data Event_ = EventV0 EventV0
 
+derive instance Eq Event_
+derive instance Ord Event_
+
 type BasicEventV0' =
   { marker1Time :: Number
   , marker1AudioURL :: Maybe String
@@ -172,6 +177,9 @@ data EventV0
   | LeapEventV0 LeapEventV0'
   | LongEventV0 LongEventV0'
 
+derive instance Eq EventV0
+derive instance Ord EventV0
+
 instance JSON.ReadForeign Event_ where
   readImpl i = EventV0 <$> (JSON.readImpl i)
 
@@ -202,6 +210,8 @@ type TrackV0' =
   }
 
 data Track = TrackV0 TrackV0'
+derive instance Eq Track
+derive instance Ord Track
 
 instance Show Track where
   show (TrackV0 t) = "TrackV0 <" <> show t <> ">"
